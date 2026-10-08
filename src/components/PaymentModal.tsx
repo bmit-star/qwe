@@ -13,13 +13,13 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="glass-card p-8 max-w-md w-full animate-scale-in relative">
-        <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:text-white">✕</button>
-        <div className="text-center mb-6">
-          <div className="text-5xl mb-3">🔓</div>
-          <h2 className="text-2xl font-bold text-white mb-2">Бүрэн тайлан авах</h2>
-          <p className="text-white/60 text-sm">Бүх тоон зурхайн аргачлал, одон орон, хосын харилцаа зэрэг дэлгэрэнгүй тайлан</p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
+      <div className="glass-card p-4 sm:p-8 max-w-md w-full animate-scale-in relative my-4">
+        <button onClick={onClose} className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:text-white text-sm">✕</button>
+        <div className="text-center mb-4 sm:mb-6">
+          <div className="text-4xl sm:text-5xl mb-2 sm:mb-3">🔓</div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Бүрэн тайлан авах</h2>
+          <p className="text-white/60 text-xs sm:text-sm">Бүх тоон зурхайн аргачлал, одон орон, хосын харилцаа зэрэг дэлгэрэнгүй тайлан</p>
         </div>
         <div className="bg-gradient-to-r from-gold-500/20 to-primary-500/20 rounded-xl p-4 mb-6 border border-gold-400/20">
           <div className="flex items-center justify-between">

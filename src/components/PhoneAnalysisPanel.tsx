@@ -80,12 +80,12 @@ export default function PhoneAnalysisPanel({ lifePathNumber, birthDate }: PhoneA
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto mt-8 animate-slide-up">
-      <div className="glass-card p-8">
-        <div className="text-center mb-6">
-          <div className="text-5xl mb-3 inline-block animate-float">📱</div>
-          <h2 className="text-2xl font-bold text-white mb-2">Утасны дугаарын шинжилгээ</h2>
-          <p className="text-white/60 text-sm">Утасны тоон энерги, ордны тохирол, ээлтэй тоо, хосын харилцаа</p>
+    <div className="w-full max-w-2xl mx-auto mt-8 animate-slide-up px-2">
+      <div className="glass-card p-4 sm:p-8">
+        <div className="text-center mb-4 sm:mb-6">
+          <div className="text-4xl sm:text-5xl mb-2 sm:mb-3 inline-block animate-float">📱</div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Утасны дугаарын шинжилгээ</h2>
+          <p className="text-white/60 text-xs sm:text-sm">Утасны тоон энерги, ордны тохирол, ээлтэй тоо, хосын харилцаа</p>
         </div>
 
         {showCustomInput && !lifePathNumber && (

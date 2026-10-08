@@ -38,10 +38,10 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen py-8 px-4">
+    <div className="min-h-screen py-4 sm:py-8 px-2 sm:px-4">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-primary-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 rounded-full blur-3xl" />
         {Array.from({ length: 15 }).map((_, i) => (
           <div key={i} className="absolute w-1 h-1 bg-white rounded-full animate-twinkle"
             style={{ top: `${Math.random()*100}%`, left: `${Math.random()*100}%`, animationDelay: `${Math.random()*3}s`, opacity: 0.3 }} />
@@ -49,12 +49,12 @@ export default function App() {
       </div>
 
       <div className="relative z-10">
-        <header className="text-center mb-10 no-print">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-3">
+        <header className="text-center mb-6 sm:mb-10 no-print">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-2 sm:mb-3">
             <span className="bg-gradient-to-r from-primary-300 via-purple-300 to-primary-500 bg-clip-text text-transparent animate-gradient">Номберлоги</span>{' '}
             <span className="text-gold-400 animate-float inline-block">AI</span>
           </h1>
-          <p className="text-white/60 max-w-md mx-auto text-sm md:text-base">Пифагор, Йоог/Тантрик болон 9 жилийн мөчлөг дээр суурилсан тоон зурхайн тайлан</p>
+          <p className="text-white/60 max-w-md mx-auto text-xs sm:text-sm md:text-base px-4">Пифагор, Йоог/Тантрик болон 9 жилийн мөчлөг дээр суурилсан тоон зурхайн тайлан</p>
         </header>
 
         <main>
@@ -85,18 +85,18 @@ export default function App() {
 
 function LandingInfo() {
   return (
-    <div className="max-w-4xl mx-auto mt-12 no-print">
-      <div className="grid md:grid-cols-4 gap-4 mb-10">
+    <div className="max-w-4xl mx-auto mt-8 sm:mt-12 no-print px-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8 sm:mb-10">
         {[
           { icon: '🔢', title: 'Пифагорын систем', desc: 'Амьдралын зам, илэрхийлэл, сэтгэлийн хүсэл' },
           { icon: '🕉️', title: 'Йоог / Тантрик', desc: 'Хувь заяа, зам, нэрний тоо, 5 тооны бие' },
           { icon: '🔄', title: '9 жилийн мөчлөг', desc: 'Ирэх 9 жилийн хувийн жилийн тоо, сэдэв' },
           { icon: '📱', title: 'Утасны шинжилгээ', desc: 'Утасны тоон энерги, тохирох дугаар' },
         ].map((item, i) => (
-          <div key={i} className={`glass-card p-6 text-center animate-slide-up stagger-${i+1}`}>
-            <div className="text-4xl mb-3">{item.icon}</div>
-            <h3 className="text-white font-semibold mb-2 text-sm">{item.title}</h3>
-            <p className="text-white/60 text-xs">{item.desc}</p>
+          <div key={i} className={`glass-card p-4 sm:p-6 text-center animate-slide-up stagger-${i+1}`}>
+            <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">{item.icon}</div>
+            <h3 className="text-white font-semibold mb-1 sm:mb-2 text-xs sm:text-sm">{item.title}</h3>
+            <p className="text-white/60 text-[10px] sm:text-xs">{item.desc}</p>
           </div>
         ))}
       </div>

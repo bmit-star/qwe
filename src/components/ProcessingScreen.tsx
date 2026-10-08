@@ -34,9 +34,9 @@ export default function ProcessingScreen({ name, onComplete }: ProcessingScreenP
   }, []);
 
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className="glass-card p-8 text-center">
-        <div className="relative w-32 h-32 mx-auto mb-6">
+    <div className="w-full max-w-lg mx-auto px-2">
+      <div className="glass-card p-4 sm:p-8 text-center">
+        <div className="relative w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 sm:mb-6">
           <div className="absolute inset-0 rounded-full border-4 border-primary-400/30 animate-spin-slow" />
           <div className="absolute inset-3 rounded-full border-4 border-purple-400/30 animate-spin-slow" style={{ animationDirection: 'reverse', animationDuration: '6s' }} />
           <div className="absolute inset-6 rounded-full bg-gradient-to-br from-primary-500/20 to-purple-700/20 flex items-center justify-center">

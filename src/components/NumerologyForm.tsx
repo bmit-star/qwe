@@ -32,12 +32,12 @@ export default function NumerologyForm({ onSubmit, isLoading }: NumerologyFormPr
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto animate-slide-up">
-      <div className="glass-card p-8">
-        <div className="text-center mb-8">
-          <div className="text-5xl mb-4 animate-float">🔢</div>
-          <h2 className="text-2xl font-bold text-white mb-2">Тоон зурхайн тайлангаа авах</h2>
-          <p className="text-white/60 text-sm">Пифагор, Йоог болон 9 жилийн мөчлөг дээр суурилсан</p>
+    <div className="w-full max-w-lg mx-auto animate-slide-up px-2">
+      <div className="glass-card p-4 sm:p-8">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="text-4xl sm:text-5xl mb-3 sm:mb-4 animate-float">🔢</div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Тоон зурхайн тайлангаа авах</h2>
+          <p className="text-white/60 text-xs sm:text-sm">Пифагор, Йоог болон 9 жилийн мөчлөг дээр суурилсан</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           <div>

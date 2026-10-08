@@ -100,3 +100,38 @@ export function calcCompatibility(num1: number, num2: number): CompatibilityResu
   };
   return { overallScore, loveScore, friendshipScore, workScore, communicationScore, summary, strengths, challenges, advice: advices[n1] ?? 'Бие биенээ хүндэлж, нээлттэй харилц.' };
 }
+
+// ============ TAROT NUMEROLOGY ============
+
+export interface TarotCard {
+  number: number; name: string; nameMn: string; meaning: string;
+}
+
+export const TAROT_CARDS: TarotCard[] = [
+  { number: 1, name: 'The Magician', nameMn: 'Ид шидтэн', meaning: 'Бүтээлч хүч, шинэ эхлэл, өөртөө итгэх итгэл. Таны авьяас чадал хязгааргүй.' },
+  { number: 2, name: 'The High Priestess', nameMn: 'Лам хатан', meaning: 'Зөн совин, нууц мэдлэг, дотоод мэдрэмж. Таны直觉 хүчтэй.' },
+  { number: 3, name: 'The Empress', nameMn: 'Эзэгтэй', meaning: 'Элбэг дэлбэг, бүтээлч байдал, эх хүн. Таны зөөлөн хүч хүмүүсийг татдаг.' },
+  { number: 4, name: 'The Emperor', nameMn: 'Эзэн хаан', meaning: 'Зохион байгуулалт, тогтвортой байдал, манлайлал. Таны хүчирхэг байдал амжилтанд хүргэнэ.' },
+  { number: 5, name: 'The Hierophant', nameMn: 'Лам багш', meaning: 'Уламжлал, итгэл үнэмшил, сурган хүмүүжүүлэх. Таны мэдлэг бусдад гэрэл болно.' },
+  { number: 6, name: 'The Lovers', nameMn: 'Хосууд', meaning: 'Хайр дурлал, сонголт, хамтын ажиллагаа. Таны зүрх сэтгэл зөв замыг заана.' },
+  { number: 7, name: 'The Chariot', nameMn: 'Тэрэг', meaning: 'Ялалт, зориг, хүч чадал, зорилгодоо хүрэх. Таны тэвчээр ялалт авчирна.' },
+  { number: 8, name: 'Strength', nameMn: 'Хүч чадал', meaning: 'Дотоод хүч, тэвчээр, зориг чадвар. Таны зөөлөн хүч хамгийн хүчирхэг.' },
+  { number: 9, name: 'The Hermit', nameMn: 'Ганцаардсан хүн', meaning: 'Дотоод хайгуул, бясалгал, мэдлэг. Таны ганцаардал хүчирхэг.' },
+  { number: 11, name: 'Justice', nameMn: 'Шударга ёс', meaning: 'Тэнцвэр, шударга байдал, хариуцлага. Таны шударга ёс бүхнийг зохицуулна.' },
+  { number: 13, name: 'Death', nameMn: 'Өөрчлөлт', meaning: 'Өөрчлөлт, шинэчлэл, хуучнаасаа салах. Шинэ эхлэлд бэлд.' },
+  { number: 15, name: 'The Devil', nameMn: 'Сорилт', meaning: 'Сорилт, эрх чөлөө, материаллаг зүйл. Хүчинд автахгүй байх хэрэгтэй.' },
+  { number: 17, name: 'The Star', nameMn: 'Од', meaning: 'Итгэл найдвар, сүнсний удирдамж, тайван байдал. Таны од гэрэлтэй.' },
+  { number: 19, name: 'The Sun', nameMn: 'Нар', meaning: 'Амжилт, баяр баясгалан, эрч хүч. Таны нар мандлаа.' },
+  { number: 21, name: 'The World', nameMn: 'Дэлхий', meaning: 'Гүйцэтгэл, бүрэн бүтэн байдал, амжилт. Таны мөчлөг дуусаж, шинэ эхлэл.' },
+  { number: 22, name: 'The Fool', nameMn: 'Шинэ аялагч', meaning: 'Шинэ аялал, эрх чөлөө, итгэл. Адал явдалд бэлд.' },
+];
+
+export function getTarotCard(num: number): TarotCard {
+  // Map life path number to tarot card
+  const mapping: Record<number, number> = {
+    1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9,
+    11: 11, 22: 22, 33: 17,
+  };
+  const tarotNum = mapping[num] ?? ((num % 22) || 22);
+  return TAROT_CARDS.find(c => c.number === tarotNum) ?? TAROT_CARDS[0];
+}
