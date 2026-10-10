@@ -2,7 +2,6 @@ import { useState, useCallback, useRef } from 'react';
 import NumerologyForm from './components/NumerologyForm';
 import ProcessingScreen from './components/ProcessingScreen';
 import ReportView from './components/ReportView';
-import PhoneAnalysisPanel from './components/PhoneAnalysisPanel';
 import { generateReport } from './lib/numerology';
 import type { NumerologyReport } from './lib/numerology';
 
@@ -64,7 +63,6 @@ export default function App() {
           {appState === 'form' && (
             <>
               <NumerologyForm onSubmit={handleFormSubmit} isLoading={false} />
-              <PhoneAnalysisPanel />
               <LandingInfo />
             </>
           )}
@@ -107,7 +105,7 @@ function LandingInfo() {
           {[
             ['✓ Пифагорын тооцоолол', '✓ Йоог/Тантрик тоо', '✓ 9 жилийн мөчлөг'],
             ['✓ Нарны ордны онцлог', '✓ Хятад зурхай (12 жил)', '✓ Тарот картны утга'],
-            ['✓ Хосын харилцааны зөвлөмж', '✓ Утасны дэлгэрэнгүй шинжилгээ', '✓ PDF татах боломж'],
+            ['✓ Хосын харилцааны зөвлөмж', '✓ PDF татах боломж'],
           ].map((col, i) => (
             <div key={i} className="space-y-1.5 sm:space-y-2">
               {col.map((item, j) => (
