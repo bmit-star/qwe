@@ -70,10 +70,7 @@ export default function App() {
           )}
           {appState === 'processing' && <ProcessingScreen name={formDataRef.current.name} onComplete={handleProcessingComplete} />}
           {appState === 'report' && report && (
-            <>
-              <ReportView report={report} onReset={handleReset} />
-              <PhoneAnalysisPanel lifePathNumber={report.pythagorean.lifePath} birthDate={report.birthDate} />
-            </>
+            <ReportView report={report} onReset={handleReset} />
           )}
         </main>
 

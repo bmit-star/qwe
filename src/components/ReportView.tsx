@@ -1,10 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { NumerologyReport } from '../lib/numerology';
 import PaymentModal from './PaymentModal';
 import {
   LIFE_PATH_MEANINGS, EXPRESSION_MEANINGS, SOUL_URGE_MEANINGS,
   PERSONALITY_MEANINGS, YOGIC_MEANINGS, MISSING_NUMBER_MEANINGS,
-  getZodiacSign, getChineseZodiac, calcCompatibility,
+  getZodiacSign, getChineseZodiac, calcCompatibility, analyzePhone,
 } from '../lib/numerology';
 import { TAROT_CARDS } from '../lib/numerology/extended';
 import { exportToPDF } from '../lib/pdfExport';
@@ -291,6 +291,16 @@ export default function ReportView({ report, onReset }: ReportViewProps) {
             </div>
           )}
         </Section>
+
+        {/* 7. Утасны дэлгэрэнгүй шинжилгээ */}
+        <Section title="Утасны дэлгэрэнгүй шинжилгээ" icon="📱" locked={!isPaid} onUnlock={() => setShowPayment(true)}>
+          {isPaid ? <PhoneAnalysisSection lifePath={pythagorean.lifePath} zodiac={zodiac} /> : (
+            <div className="text-center py-6">
+              <p className="text-white/50 text-xs sm:text-sm mb-3">Утасны тоон энерги, ээлтэй тоо, тохирох дугаарын санал</p>
+              <button onClick={() => setShowPayment(true)} className="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500/20 to-primary-500/20 border border-teal-400/30 text-teal-300 text-xs sm:text-sm">📱 Шинжлэх</button>
+            </div>
+          )}
+        </Section>
       </div>
 
       {/* Disclaimer */}
@@ -363,6 +373,101 @@ function CompatibilityChecker({ lifePath }: { lifePath: number }) {
           </div>
         );
       })()}
+    </div>
+  );
+}
+
+function PhoneAnalysisSection({ lifePath, zodiac }: { lifePath: number; zodiac: { signMn: string; luckyNumbers: number[] } }) {
+  const [phone, setPhone] = useState('');
+  const [analysis, setAnalysis] = useState<{ reducedNumber: number; totalSum: number; digits: number[]; meaning: string; compatible: boolean; lifePathMatch: boolean; suggestions: string[] } | null>(null);
+
+  useEffect(() => {
+    if (phone.length >= 8) {
+      setAnalysis(analyzePhone(phone, lifePath));
+    } else {
+      setAnalysis(null);
+    }
+  }, [phone, lifePath]);
+
+  const formatPhone = (value: string) => {
+    let digits = value.replace(/[^\d+]/g, '');
+    if (digits.startsWith('+976')) {
+      const local = digits.slice(4);
+      if (local.length > 4) digits = '+976 ' + local.slice(0,4) + ' ' + local.slice(4,8);
+      else if (local.length > 0) digits = '+976 ' + local;
+    } else if (digits.startsWith('976')) {
+      const local = digits.slice(3);
+      if (local.length > 4) digits = '+976 ' + local.slice(0,4) + ' ' + local.slice(4,8);
+      else if (local.length > 0) digits = '+976 ' + local;
+      else digits = '+976 ';
+    }
+    return digits;
+  };
+
+  const getLuckyNumbers = () => {
+    if (!analysis) return [];
+    const lucky: number[] = [analysis.reducedNumber, ...zodiac.luckyNumbers.slice(0,2), lifePath];
+    return [...new Set(lucky)].slice(0,5);
+  };
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-xs sm:text-sm text-white/70 mb-2">Утасны дугаар оруулна уу:</label>
+        <input
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(formatPhone(e.target.value))}
+          placeholder="+976 9911 2233"
+          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white text-center placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-teal-400 transition font-mono tracking-wider text-sm sm:text-base"
+        />
+      </div>
+
+      {analysis && (
+        <div className="space-y-3 animate-fade-in">
+          <div className="flex items-center justify-center gap-4">
+            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${analysis.lifePathMatch ? 'from-gold-400 to-gold-600' : analysis.compatible ? 'from-green-400 to-green-600' : 'from-teal-400 to-teal-600'} flex items-center justify-center shadow-lg`}>
+              <span className="text-2xl sm:text-3xl font-bold text-white">{analysis.reducedNumber}</span>
+            </div>
+            <div>
+              <p className="text-white font-semibold text-sm sm:text-base">Утасны тоо: {analysis.reducedNumber}</p>
+              <p className="text-white/60 text-xs">Нийлбэр: {analysis.totalSum}</p>
+              {analysis.lifePathMatch && <span className="text-[10px] sm:text-xs text-gold-300">✨ Амьдралын замтай тохирч байна</span>}
+              {analysis.compatible && !analysis.lifePathMatch && <span className="text-[10px] sm:text-xs text-green-300">✓ Нийцтэй</span>}
+            </div>
+          </div>
+
+          <div className="bg-white/5 rounded-xl p-3">
+            <p className="text-white/80 text-xs sm:text-sm">{analysis.meaning}</p>
+          </div>
+
+          <div className="bg-gradient-to-br from-gold-500/5 to-primary-500/5 rounded-xl p-3 border border-gold-400/10">
+            <h4 className="text-gold-400 font-medium text-xs sm:text-sm mb-2">🍀 Таны ээлтэй тоонууд</h4>
+            <div className="flex flex-wrap gap-2">
+              {getLuckyNumbers().map((n, i) => (
+                <div key={i} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-gold-400/20 to-gold-600/20 border border-gold-400/30 flex items-center justify-center">
+                  <span className="text-gold-300 font-bold text-xs sm:text-sm">{n}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-white/50 text-[10px] sm:text-xs mt-2">{zodiac.signMn} ордны ээлтэй тоо: {zodiac.luckyNumbers.join(', ')}</p>
+          </div>
+
+          {analysis.suggestions.length > 0 && (
+            <div className="bg-white/5 rounded-xl p-3">
+              <h4 className="text-white font-medium text-xs sm:text-sm mb-2">✨ Танд тохирох дугаарууд:</h4>
+              <div className="space-y-1.5">
+                {analysis.suggestions.map((s, i) => (
+                  <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-white/5 text-xs sm:text-sm">
+                    <span className="text-white font-mono">{s}</span>
+                    <span className="text-[10px] sm:text-xs text-green-300">Нийцтэй</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
