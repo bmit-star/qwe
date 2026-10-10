@@ -6,19 +6,21 @@ interface PhoneAnalysisPanelProps { lifePathNumber?: number; birthDate?: string;
 function PhoneCompatView({ a, b }: { a: PhoneAnalysis; b: PhoneAnalysis }) {
   const c = calcCompatibility(a.reducedNumber, b.reducedNumber);
   return (
-    <div className="bg-white/5 rounded-xl p-4">
-      <div className="flex items-center justify-center gap-4 mb-3">
-        <div className="text-center"><div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center mx-auto"><span className="text-lg font-bold text-white">{a.reducedNumber}</span></div><p className="text-white/50 text-xs mt-1">Таны</p></div>
-        <span className="text-2xl">💕</span>
-        <div className="text-center"><div className="w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center mx-auto"><span className="text-lg font-bold text-white">{b.reducedNumber}</span></div><p className="text-white/50 text-xs mt-1">Хамтрагч</p></div>
+    <div className="bg-white/5 rounded-xl p-3 sm:p-4">
+      <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3">
+        <div className="text-center"><div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center mx-auto"><span className="text-sm sm:text-lg font-bold text-white">{a.reducedNumber}</span></div><p className="text-white/50 text-[10px] sm:text-xs mt-1">Таны</p></div>
+        <span className="text-xl sm:text-2xl">💕</span>
+        <div className="text-center"><div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center mx-auto"><span className="text-sm sm:text-lg font-bold text-white">{b.reducedNumber}</span></div><p className="text-white/50 text-[10px] sm:text-xs mt-1">Хамтрагч</p></div>
       </div>
-      <p className="text-center text-white font-medium">{c.summary}</p>
-      <p className="text-center text-2xl font-bold text-primary-300">{c.overallScore}%</p>
-      <div className="grid grid-cols-2 gap-2 text-xs mt-2">
-        <div className="bg-white/5 rounded p-2 text-center"><p className="text-rose-300">💕 Хайр</p><p className="text-white font-bold">{c.loveScore}%</p></div>
-        <div className="bg-white/5 rounded p-2 text-center"><p className="text-primary-300">🤝 Нөхөрлөл</p><p className="text-white font-bold">{c.friendshipScore}%</p></div>
+      <p className="text-center text-white font-medium text-xs sm:text-sm">{c.summary}</p>
+      <p className="text-center text-xl sm:text-2xl font-bold text-primary-300">{c.overallScore}%</p>
+      <div className="grid grid-cols-2 gap-1.5 sm:gap-2 text-[10px] sm:text-xs mt-2">
+        <div className="bg-white/5 rounded p-1.5 sm:p-2 text-center"><p className="text-rose-300">💕 Хайр</p><p className="text-white font-bold">{c.loveScore}%</p></div>
+        <div className="bg-white/5 rounded p-1.5 sm:p-2 text-center"><p className="text-primary-300">🤝 Нөхөрлөл</p><p className="text-white font-bold">{c.friendshipScore}%</p></div>
+        <div className="bg-white/5 rounded p-1.5 sm:p-2 text-center"><p className="text-teal-300">💬 Харилцаа</p><p className="text-white font-bold">{c.communicationScore}%</p></div>
+        <div className="bg-white/5 rounded p-1.5 sm:p-2 text-center"><p className="text-gold-300">💼 Ажил</p><p className="text-white font-bold">{c.workScore}%</p></div>
       </div>
-      <p className="text-white/60 text-xs mt-2">💡 {c.advice}</p>
+      <p className="text-white/60 text-[10px] sm:text-xs mt-2">💡 {c.advice}</p>
     </div>
   );
 }
@@ -80,100 +82,100 @@ export default function PhoneAnalysisPanel({ lifePathNumber, birthDate }: PhoneA
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto mt-8 animate-slide-up px-2">
-      <div className="glass-card p-4 sm:p-8">
+    <div className="w-full max-w-md mx-auto mt-6 sm:mt-8 px-2 sm:px-0">
+      <div className="glass-card p-4 sm:p-6">
         <div className="text-center mb-4 sm:mb-6">
-          <div className="text-4xl sm:text-5xl mb-2 sm:mb-3 inline-block animate-float">📱</div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Утасны дугаарын шинжилгээ</h2>
-          <p className="text-white/60 text-xs sm:text-sm">Утасны тоон энерги, ордны тохирол, ээлтэй тоо, хосын харилцаа</p>
+          <div className="text-3xl sm:text-5xl mb-2 sm:mb-3 inline-block animate-float">📱</div>
+          <h2 className="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2">Утасны дугаарын шинжилгээ</h2>
+          <p className="text-white/60 text-[10px] sm:text-sm">Утасны тоон энерги, ээлтэй тоо, тохирох дугаар</p>
         </div>
 
         {showCustomInput && !lifePathNumber && (
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-white/80 mb-2">Амьдралын замын тоо:</label>
-            <div className="flex gap-2 flex-wrap">
+          <div className="mb-3 sm:mb-4">
+            <label className="block text-[10px] sm:text-sm font-medium text-white/80 mb-1.5 sm:mb-2">Амьдралын замын тоо:</label>
+            <div className="flex gap-1.5 sm:gap-2 flex-wrap">
               {[1,2,3,4,5,6,7,8,9].map(n => (
                 <button key={n} onClick={() => { setCustomLifePath(n); setShowCustomInput(false); }}
-                  className={`w-10 h-10 rounded-full transition-all ${customLifePath === n ? 'bg-gradient-to-br from-primary-500 to-primary-700 text-white scale-110' : 'bg-white/10 text-white/60 hover:bg-white/20'}`}>{n}</button>
+                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full transition-all text-xs sm:text-sm ${customLifePath === n ? 'bg-gradient-to-br from-primary-500 to-primary-700 text-white scale-110' : 'bg-white/10 text-white/60 hover:bg-white/20'}`}>{n}</button>
               ))}
             </div>
           </div>
         )}
 
-        <div className="mb-6">
-          <label htmlFor="phone" className="block text-sm font-medium text-white/90 mb-2">Таны утасны дугаар</label>
+        <div className="mb-4 sm:mb-6">
+          <label htmlFor="phone" className="block text-[10px] sm:text-sm font-medium text-white/90 mb-1.5 sm:mb-2">Утасны дугаар</label>
           <div className="relative">
-            <input id="phone" type="tel" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))}
+            <input id="phone" type="tel" inputMode="tel" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value))}
               placeholder="+976 9911 2233"
-              className="w-full px-4 py-4 rounded-xl bg-white/5 border border-white/20 text-white text-lg text-center placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-primary-400 transition font-mono tracking-wider" />
-            {isMongolian !== null && <div className="absolute right-3 top-1/2 -translate-y-1/2">{isMongolian ? <span className="text-green-400 text-sm">✓ Монгол</span> : <span className="text-yellow-400 text-sm">⚠ Формат</span>}</div>}
+              className="w-full px-3 sm:px-4 py-2.5 sm:py-4 rounded-xl bg-white/5 border border-white/20 text-white text-base sm:text-lg text-center placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-primary-400 transition font-mono tracking-wider" />
+            {isMongolian !== null && <div className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2">{isMongolian ? <span className="text-green-400 text-[10px] sm:text-sm">✓</span> : <span className="text-yellow-400 text-[10px] sm:text-sm">⚠</span>}</div>}
           </div>
         </div>
 
         {analysis && (
-          <div className="space-y-4 animate-fade-in">
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${numberColor()} flex items-center justify-center shadow-lg animate-pulse-glow`}>
-                <span className="text-3xl font-bold text-white">{analysis.reducedNumber}</span>
+          <div className="space-y-3 animate-fade-in">
+            <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3">
+              <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${numberColor()} flex items-center justify-center shadow-lg animate-pulse-glow`}>
+                <span className="text-xl sm:text-3xl font-bold text-white">{analysis.reducedNumber}</span>
               </div>
               <div className="text-left">
-                <p className="text-white font-semibold text-lg">Утасны тоо: {analysis.reducedNumber}</p>
-                <p className="text-white/60 text-sm">Нийлбэр: {analysis.totalSum}</p>
+                <p className="text-white font-semibold text-sm sm:text-lg">Утасны тоо: {analysis.reducedNumber}</p>
+                <p className="text-white/60 text-[10px] sm:text-sm">Нийлбэр: {analysis.totalSum}</p>
               </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-2">
-              {analysis.lifePathMatch && <span className="px-3 py-1.5 rounded-full bg-gold-500/20 border border-gold-400/30 text-gold-300 text-sm">✨ Амьдралын замтай тохирч байна</span>}
-              {analysis.compatible && !analysis.lifePathMatch && <span className="px-3 py-1.5 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-sm">✓ Нийцтэй</span>}
+            <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+              {analysis.lifePathMatch && <span className="px-2 sm:px-3 py-1 rounded-full bg-gold-500/20 border border-gold-400/30 text-gold-300 text-[10px] sm:text-sm">✨ Тохирч байна</span>}
+              {analysis.compatible && !analysis.lifePathMatch && <span className="px-2 sm:px-3 py-1 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-[10px] sm:text-sm">✓ Нийцтэй</span>}
             </div>
 
-            <div className="bg-white/5 rounded-xl p-4"><p className="text-white/80 text-sm">{analysis.meaning}</p></div>
+            <div className="bg-white/5 rounded-xl p-2.5 sm:p-4"><p className="text-white/80 text-[10px] sm:text-sm">{analysis.meaning}</p></div>
 
-            <div className="bg-gradient-to-br from-gold-500/5 to-primary-500/5 rounded-xl p-4 border border-gold-400/10">
-              <h4 className="text-gold-400 font-medium text-sm mb-3">🍀 Таны ээлтэй тоонууд</h4>
-              <div className="flex flex-wrap gap-2">
+            <div className="bg-gradient-to-br from-gold-500/5 to-primary-500/5 rounded-xl p-2.5 sm:p-4 border border-gold-400/10">
+              <h4 className="text-gold-400 font-medium text-[10px] sm:text-sm mb-2">🍀 Ээлтэй тоонууд</h4>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {getLuckyNumbers().map((n, i) => (
-                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400/20 to-gold-600/20 border border-gold-400/30 flex items-center justify-center">
-                    <span className="text-gold-300 font-bold">{n}</span>
+                  <div key={i} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-gold-400/20 to-gold-600/20 border border-gold-400/30 flex items-center justify-center">
+                    <span className="text-gold-300 font-bold text-xs sm:text-sm">{n}</span>
                   </div>
                 ))}
               </div>
-              {zodiac && <p className="text-white/50 text-xs mt-2">{zodiac.signMn} ордны ээлтэй тоо: {zodiac.luckyNumbers.join(', ')}</p>}
+              {zodiac && <p className="text-white/50 text-[10px] sm:text-xs mt-2">{zodiac.signMn} ордны ээлтэй тоо: {zodiac.luckyNumbers.join(', ')}</p>}
             </div>
 
             {customLifePath && (
               <button onClick={() => setShowSuggestions(!showSuggestions)}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-gold-500/20 to-gold-600/20 border border-gold-400/30 text-gold-300 font-medium">
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 rounded-xl bg-gradient-to-r from-gold-500/20 to-gold-600/20 border border-gold-400/30 text-gold-300 text-xs sm:text-sm font-medium">
                 {showSuggestions ? '🔽 Хаах' : '✨ Танд тохирох дугаарууд'}
               </button>
             )}
 
             {showSuggestions && analysis.suggestions.length > 0 && (
-              <div className="bg-gradient-to-br from-gold-500/5 to-primary-500/5 rounded-xl p-4 border border-gold-400/10">
-                <div className="space-y-2">
+              <div className="bg-gradient-to-br from-gold-500/5 to-primary-500/5 rounded-xl p-2.5 sm:p-4 border border-gold-400/10">
+                <div className="space-y-1.5 sm:space-y-2">
                   {analysis.suggestions.map((s, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
-                      <span className="text-white font-mono text-lg">{s}</span>
-                      <span className="text-xs text-green-300 px-2 py-1 rounded-full bg-green-500/10">Нийцтэй</span>
+                    <div key={i} className="flex items-center justify-between p-2 sm:p-3 rounded-lg bg-white/5 border border-white/10">
+                      <span className="text-white font-mono text-xs sm:text-lg">{s}</span>
+                      <span className="text-[9px] sm:text-xs text-green-300 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-green-500/10">Нийцтэй</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            <div className="mt-4 border-t border-white/10 pt-4">
+            <div className="mt-3 border-t border-white/10 pt-3">
               <button onClick={() => setShowCompatibility(!showCompatibility)}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-rose-500/20 to-primary-500/20 border border-rose-400/30 text-rose-300 font-medium">
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 rounded-xl bg-gradient-to-r from-rose-500/20 to-primary-500/20 border border-rose-400/30 text-rose-300 text-xs sm:text-sm font-medium">
                 {showCompatibility ? '🔽 Хаах' : '💕 Хамтрагчийн утсаар тохирол шалгах'}
               </button>
 
               {showCompatibility && (
-                <div className="mt-4 space-y-4">
+                <div className="mt-3 space-y-3">
                   <div>
-                    <label className="block text-sm text-white/70 mb-2">Хамтрагчийн утасны дугаар:</label>
-                    <input type="tel" value={partnerPhone} onChange={(e) => setPartnerPhone(formatPhone(e.target.value))}
+                    <label className="block text-[10px] sm:text-sm text-white/70 mb-1.5">Хамтрагчийн утас:</label>
+                    <input type="tel" inputMode="tel" value={partnerPhone} onChange={(e) => setPartnerPhone(formatPhone(e.target.value))}
                       placeholder="+976 8811 2233"
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white text-center placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-rose-400 transition font-mono tracking-wider" />
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-white/5 border border-white/20 text-white text-center placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-rose-400 transition font-mono tracking-wider text-sm sm:text-base" />
                   </div>
                   {partnerAnalysis && analysis && <PhoneCompatView a={analysis} b={partnerAnalysis} />}
                 </div>

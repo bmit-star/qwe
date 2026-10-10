@@ -17,23 +17,24 @@ function generateId(): string {
 export default function App() {
   const [appState, setAppState] = useState<AppState>('form');
   const [report, setReport] = useState<NumerologyReport | null>(null);
-  const formDataRef = useRef({ name: '', birthDate: '', email: '' });
+  const formDataRef = useRef({ name: '', birthDate: '', phone: '' });
 
-  const handleFormSubmit = useCallback((name: string, birthDate: string, email: string) => {
-    formDataRef.current = { name, birthDate, email };
+  const handleFormSubmit = useCallback((name: string, birthDate: string, phone: string) => {
+    formDataRef.current = { name, birthDate, phone };
     setAppState('processing');
   }, []);
 
   const handleProcessingComplete = useCallback(() => {
-    const { name, birthDate, email } = formDataRef.current;
+    const { name, birthDate, phone } = formDataRef.current;
     const id = generateId();
-    setReport(generateReport(id, name, birthDate, email));
+    // phone-г email field-д хадгална (backward compatible)
+    setReport(generateReport(id, name, birthDate, phone));
     setAppState('report');
   }, []);
 
   const handleReset = useCallback(() => {
     setReport(null);
-    formDataRef.current = { name: '', birthDate: '', email: '' };
+    formDataRef.current = { name: '', birthDate: '', phone: '' };
     setAppState('form');
   }, []);
 
@@ -42,19 +43,21 @@ export default function App() {
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-primary-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        {Array.from({ length: 15 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_, i) => (
           <div key={i} className="absolute w-1 h-1 bg-white rounded-full animate-twinkle"
             style={{ top: `${Math.random()*100}%`, left: `${Math.random()*100}%`, animationDelay: `${Math.random()*3}s`, opacity: 0.3 }} />
         ))}
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 max-w-5xl mx-auto">
         <header className="text-center mb-6 sm:mb-10 no-print">
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-2 sm:mb-3">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-2 sm:mb-3">
             <span className="bg-gradient-to-r from-primary-300 via-purple-300 to-primary-500 bg-clip-text text-transparent animate-gradient">Номберлоги</span>{' '}
             <span className="text-gold-400 animate-float inline-block">AI</span>
           </h1>
-          <p className="text-white/60 max-w-md mx-auto text-xs sm:text-sm md:text-base px-4">Пифагор, Йоог/Тантрик болон 9 жилийн мөчлөг дээр суурилсан тоон зурхайн тайлан</p>
+          <p className="text-white/60 text-xs sm:text-base max-w-md mx-auto px-4">
+            Пифагор, Йоог, Одон орон, Хятад зурхай, Тарот зэрэг дэлхий дахины бүх тоон зурхайн аргачлалаар
+          </p>
         </header>
 
         <main>
@@ -74,7 +77,7 @@ export default function App() {
           )}
         </main>
 
-        <footer className="text-center mt-12 text-white/30 text-xs no-print">
+        <footer className="text-center mt-8 sm:mt-12 text-white/30 text-[10px] sm:text-xs no-print px-4">
           <p>© {new Date().getFullYear()} Номберлоги AI — Тоон зурхайн тайлан</p>
           <p className="mt-1">Бэлгэдлийн, зугаа цэнгэлийн зориулалттай</p>
         </footer>
@@ -85,20 +88,37 @@ export default function App() {
 
 function LandingInfo() {
   return (
-    <div className="max-w-4xl mx-auto mt-8 sm:mt-12 no-print px-2">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8 sm:mb-10">
+    <div className="max-w-4xl mx-auto mt-8 sm:mt-12 no-print px-2 sm:px-0">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mb-8 sm:mb-10">
         {[
-          { icon: '🔢', title: 'Пифагорын систем', desc: 'Амьдралын зам, илэрхийлэл, сэтгэлийн хүсэл' },
-          { icon: '🕉️', title: 'Йоог / Тантрик', desc: 'Хувь заяа, зам, нэрний тоо, 5 тооны бие' },
-          { icon: '🔄', title: '9 жилийн мөчлөг', desc: 'Ирэх 9 жилийн хувийн жилийн тоо, сэдэв' },
-          { icon: '📱', title: 'Утасны шинжилгээ', desc: 'Утасны тоон энерги, тохирох дугаар' },
+          { icon: '🔢', title: 'Пифагор', desc: 'Амьдралын зам, илэрхийлэл' },
+          { icon: '🕉️', title: 'Йоог/Тантрик', desc: 'Хувь заяа, 5 биеийн систем' },
+          { icon: '⭐', title: 'Одон орон', desc: '12 орд, Хятад 12 жил' },
+          { icon: '🃏', title: 'Тарот', desc: '22 аркан картны утга' },
         ].map((item, i) => (
-          <div key={i} className={`glass-card p-4 sm:p-6 text-center animate-slide-up stagger-${i+1}`}>
-            <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">{item.icon}</div>
-            <h3 className="text-white font-semibold mb-1 sm:mb-2 text-xs sm:text-sm">{item.title}</h3>
-            <p className="text-white/60 text-[10px] sm:text-xs">{item.desc}</p>
+          <div key={i} className="glass-card p-3 sm:p-5 text-center">
+            <div className="text-2xl sm:text-4xl mb-2">{item.icon}</div>
+            <h3 className="text-white font-semibold text-xs sm:text-sm mb-1">{item.title}</h3>
+            <p className="text-white/60 text-[10px] sm:text-xs leading-tight">{item.desc}</p>
           </div>
         ))}
+      </div>
+
+      <div className="glass-card p-4 sm:p-6">
+        <h3 className="text-white font-semibold mb-3 sm:mb-4 text-center text-sm sm:text-base">Тайланд хамрагдах аргачлалууд</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+          {[
+            ['✓ Пифагорын тооцоолол', '✓ Йоог/Тантрик тоо', '✓ 9 жилийн мөчлөг'],
+            ['✓ Нарны ордны онцлог', '✓ Хятад зурхай (12 жил)', '✓ Тарот картны утга'],
+            ['✓ Хосын харилцааны зөвлөмж', '✓ Утасны дэлгэрэнгүй шинжилгээ', '✓ PDF татах боломж'],
+          ].map((col, i) => (
+            <div key={i} className="space-y-1.5 sm:space-y-2">
+              {col.map((item, j) => (
+                <p key={j} className="text-white/70 text-xs sm:text-sm">{item}</p>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
