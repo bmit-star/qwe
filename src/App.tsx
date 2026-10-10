@@ -2,10 +2,13 @@ import { useState, useCallback, useRef } from 'react';
 import NumerologyForm from './components/NumerologyForm';
 import ProcessingScreen from './components/ProcessingScreen';
 import ReportView from './components/ReportView';
+import TarotReading from './components/TarotReading';
+import TarotReportView from './components/TarotReportView';
 import { generateReport } from './lib/numerology';
 import type { NumerologyReport } from './lib/numerology';
+import type { TarotCard, SpreadType } from './lib/tarot';
 
-type AppState = 'form' | 'processing' | 'report';
+type AppState = 'home' | 'numerology-form' | 'numerology-processing' | 'numerology-report' | 'tarot-reading' | 'tarot-report';
 
 function generateId(): string {
   const bytes = new Uint8Array(16);
@@ -14,27 +17,38 @@ function generateId(): string {
 }
 
 export default function App() {
-  const [appState, setAppState] = useState<AppState>('form');
+  const [appState, setAppState] = useState<AppState>('home');
   const [report, setReport] = useState<NumerologyReport | null>(null);
+  const [tarotData, setTarotData] = useState<{
+    cards: TarotCard[];
+    orientations: boolean[];
+    spreadType: SpreadType;
+    question: string;
+  } | null>(null);
   const formDataRef = useRef({ name: '', birthDate: '', phone: '' });
 
   const handleFormSubmit = useCallback((name: string, birthDate: string, phone: string) => {
     formDataRef.current = { name, birthDate, phone };
-    setAppState('processing');
+    setAppState('numerology-processing');
   }, []);
 
   const handleProcessingComplete = useCallback(() => {
     const { name, birthDate, phone } = formDataRef.current;
     const id = generateId();
-    // phone-г email field-д хадгална (backward compatible)
     setReport(generateReport(id, name, birthDate, phone));
-    setAppState('report');
+    setAppState('numerology-report');
+  }, []);
+
+  const handleTarotComplete = useCallback((cards: TarotCard[], orientations: boolean[], spreadType: SpreadType, question: string) => {
+    setTarotData({ cards, orientations, spreadType, question });
+    setAppState('tarot-report');
   }, []);
 
   const handleReset = useCallback(() => {
     setReport(null);
+    setTarotData(null);
     formDataRef.current = { name: '', birthDate: '', phone: '' };
-    setAppState('form');
+    setAppState('home');
   }, []);
 
   return (
@@ -55,65 +69,88 @@ export default function App() {
             <span className="text-gold-400 animate-float inline-block">AI</span>
           </h1>
           <p className="text-white/60 text-xs sm:text-base max-w-md mx-auto px-4">
-            Пифагор, Йоог, Одон орон, Хятад зурхай, Тарот зэрэг дэлхий дахины бүх тоон зурхайн аргачлалаар
+            Тоон зурхай болон Таротын уншилт
           </p>
         </header>
 
         <main>
-          {appState === 'form' && (
-            <>
-              <NumerologyForm onSubmit={handleFormSubmit} isLoading={false} />
-              <LandingInfo />
-            </>
+          {appState === 'home' && (
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {/* Numerology card */}
+              <button
+                onClick={() => setAppState('numerology-form')}
+                className="group p-8 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-primary-400/50 transition-all duration-300 text-left"
+              >
+                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">🔢</div>
+                <h2 className="text-2xl font-bold text-white mb-2">Тоон зурхай</h2>
+                <p className="text-white/60 text-sm mb-4">
+                  Төрсөн огноо, нэрэнд суурилсан тоон зурхайн тайлан
+                </p>
+                <ul className="space-y-1 text-xs text-white/50">
+                  <li>✓ Пифагорын тооцоолол</li>
+                  <li>✓ Йоог/Тантрик тоо</li>
+                  <li>✓ 9 жилийн мөчлөг</li>
+                  <li>✓ Нарны орд, Хятад зурхай</li>
+                </ul>
+                <div className="mt-6 text-primary-400 font-semibold group-hover:text-primary-300">
+                  Эхлүүлэх →
+                </div>
+              </button>
+
+              {/* Tarot card */}
+              <button
+                onClick={() => setAppState('tarot-reading')}
+                className="group p-8 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-purple-400/50 transition-all duration-300 text-left"
+              >
+                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">🎴</div>
+                <h2 className="text-2xl font-bold text-white mb-2">Таротын уншилт</h2>
+                <p className="text-white/60 text-sm mb-4">
+                  78 карттай Таротын систем, дэлгэрэнгүй тайлбар
+                </p>
+                <ul className="space-y-1 text-xs text-white/50">
+                  <li>✓ 1-7 карт сонгох</li>
+                  <li>✓ Босоо/урвуу байрлал</li>
+                  <li>✓ Хайр, карьер, санхүү</li>
+                  <li>✓ Зөвлөмж, сорилт</li>
+                </ul>
+                <div className="mt-6 text-purple-400 font-semibold group-hover:text-purple-300">
+                  Эхлүүлэх →
+                </div>
+              </button>
+            </div>
           )}
-          {appState === 'processing' && <ProcessingScreen name={formDataRef.current.name} onComplete={handleProcessingComplete} />}
-          {appState === 'report' && report && (
+
+          {appState === 'numerology-form' && (
+            <NumerologyForm onSubmit={handleFormSubmit} isLoading={false} />
+          )}
+
+          {appState === 'numerology-processing' && (
+            <ProcessingScreen name={formDataRef.current.name} onComplete={handleProcessingComplete} />
+          )}
+
+          {appState === 'numerology-report' && report && (
             <ReportView report={report} onReset={handleReset} />
+          )}
+
+          {appState === 'tarot-reading' && (
+            <TarotReading onComplete={handleTarotComplete} />
+          )}
+
+          {appState === 'tarot-report' && tarotData && (
+            <TarotReportView
+              cards={tarotData.cards}
+              orientations={tarotData.orientations}
+              spreadType={tarotData.spreadType}
+              question={tarotData.question}
+              onReset={handleReset}
+            />
           )}
         </main>
 
         <footer className="text-center mt-8 sm:mt-12 text-white/30 text-[10px] sm:text-xs no-print px-4">
-          <p>© {new Date().getFullYear()} Номберлоги AI — Тоон зурхайн тайлан</p>
+          <p>© {new Date().getFullYear()} Номберлоги AI — Тоон зурхай болон Таротын уншилт</p>
           <p className="mt-1">Бэлгэдлийн, зугаа цэнгэлийн зориулалттай</p>
         </footer>
-      </div>
-    </div>
-  );
-}
-
-function LandingInfo() {
-  return (
-    <div className="max-w-4xl mx-auto mt-8 sm:mt-12 no-print px-2 sm:px-0">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mb-8 sm:mb-10">
-        {[
-          { icon: '🔢', title: 'Пифагор', desc: 'Амьдралын зам, илэрхийлэл' },
-          { icon: '🕉️', title: 'Йоог/Тантрик', desc: 'Хувь заяа, 5 биеийн систем' },
-          { icon: '⭐', title: 'Одон орон', desc: '12 орд, Хятад 12 жил' },
-          { icon: '🃏', title: 'Тарот', desc: '22 аркан картны утга' },
-        ].map((item, i) => (
-          <div key={i} className="glass-card p-3 sm:p-5 text-center">
-            <div className="text-2xl sm:text-4xl mb-2">{item.icon}</div>
-            <h3 className="text-white font-semibold text-xs sm:text-sm mb-1">{item.title}</h3>
-            <p className="text-white/60 text-[10px] sm:text-xs leading-tight">{item.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="glass-card p-4 sm:p-6">
-        <h3 className="text-white font-semibold mb-3 sm:mb-4 text-center text-sm sm:text-base">Тайланд хамрагдах аргачлалууд</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
-          {[
-            ['✓ Пифагорын тооцоолол', '✓ Йоог/Тантрик тоо', '✓ 9 жилийн мөчлөг'],
-            ['✓ Нарны ордны онцлог', '✓ Хятад зурхай (12 жил)', '✓ Тарот картны утга'],
-            ['✓ Хосын харилцааны зөвлөмж', '✓ PDF татах боломж'],
-          ].map((col, i) => (
-            <div key={i} className="space-y-1.5 sm:space-y-2">
-              {col.map((item, j) => (
-                <p key={j} className="text-white/70 text-xs sm:text-sm">{item}</p>
-              ))}
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
