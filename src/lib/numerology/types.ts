@@ -23,4 +23,4 @@ export interface NumerologyReport {
   reportSource: 'ai' | 'fallback'; engineVersion: string;
 }
 
-export interface FormErrors { name?: string; birthDate?: string; email?: string; phone?: string; }
+export interface FormErrors { name?: string; birthDate?: string; email?: string; }
